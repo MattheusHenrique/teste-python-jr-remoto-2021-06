@@ -20,58 +20,63 @@ const shallowObjectCompare = (expected, received) => {
 
 export default () => {
 
-  group("Cria projeto titan", () => {
-    session.delete("/projects/titan/");  // <- limpa o ambiente antes do teste
+  group("Cria projeto magpy", () => {
+    session.delete("/projects/magpy/");  // <- limpa o ambiente antes do teste
 
-    const titanData = {
-        name: "titan",
+    const magpyData = {
+        name: "magpy",
         packages: [
-            {name: "django-rest-swagger"},
-            {name: "Django", version: "2.2.24"},
-            {name: "psycopg2-binary", version: "2.9.1"}
+            {name: "Django"}
         ]
     };
-    const titan = session.post("/projects/", JSON.stringify(titanData));
+    const magpy = session.post("/projects/", JSON.stringify(magpyData));
 
-    check(titan, {
+    check(magpy, {
       "Cria o projeto com sucesso": (r) => r.status === 201,
     });
 
-    check(titan, {
-      "O pacote Django continua com a versão especificada": (r) => {
+    check(magpy, {
+      "O pacote Django esta na versão mais recente": (r) => {
         const data = responseToJson(r);
         const django = data.packages.find((p) => p.name === "Django");
-        return django.version === "2.2.24";
-      },
-    });
-
-    check(titan, {
-      "O pacote django-rest-swagger usa a última versão disponível": (r) => {
-        const data = responseToJson(r);
-        const django = data.packages.find((p) => p.name === "django-rest-swagger");
-        return django.version === "2.2.0";
+        return django.version === "3.5.6";
       },
     });
   });
 
-  group("Cria projeto com pacote inexistente", () => {
+
+
+  group("Envia projeto com dados invalidos", () => {
     session.delete("/projects/machine-head/");  // <- limpa o ambiente antes do teste
 
     const mhdData = {
         name: "machine-head",
-        packages: [
-            {name: "keras"},
-            {name: "matplotlib"},
-            {name: "pypypypypypypypypypypypypy"}
-        ]
     };
     const mh = session.post("/projects/", JSON.stringify(mhdData));
 
     check(mh, {
       "Tentativa resulta em erro BAD REQUEST": (r) => r.status === 400,
     });
+  });
 
-    check(mh, {
+
+
+  group("Envia projeto com nome de pacote invalido, sem versão", () => {
+    session.delete("/projects/titan/");  // <- limpa o ambiente antes do teste
+
+    const titanData = {
+      name: "titan",
+      packages: [
+        {name: 'djangor'}
+      ]
+    };
+    const titan = session.post("/projects/", JSON.stringify(titanData));
+
+    check(titan, {
+      "Tentativa resulta em erro BAD REQUEST": (r) => r.status === 400,
+    });
+
+    check(titan, {
       "Apresenta mensagem de erro": (r) => {
         const data = responseToJson(r);
         const expected = {"error": "One or more packages doesn't exist"};
@@ -79,4 +84,55 @@ export default () => {
       },
     });
   });
+
+
+    group("Envia projeto com nome de pacote invalido, sem versão", () => {
+    session.delete("/projects/titan/");  // <- limpa o ambiente antes do teste
+
+    const titanData = {
+      name: "titan",
+      packages: [
+        {name: 'djangor'}
+      ]
+    };
+    const titan = session.post("/projects/", JSON.stringify(titanData));
+
+    check(titan, {
+      "Tentativa resulta em erro BAD REQUEST": (r) => r.status === 400,
+    });
+
+    check(titan, {
+      "Apresenta mensagem de erro": (r) => {
+        const data = responseToJson(r);
+        const expected = {"error": "One or more packages doesn't exist"};
+        return shallowObjectCompare(expected, data);
+      },
+    });
+  });
+
+
+  group("Envia projeto com versão invalida", () => {
+    session.delete("/projects/titan1/");  // <- limpa o ambiente antes do teste
+
+    const titan1Data = {
+      name: "titan1",
+      packages: [
+        {name: 'django', version: '9.0'}
+      ]
+    };
+    const titan1 = session.post("/projects/", JSON.stringify(titan1Data));
+
+    check(titan1, {
+      "Tentativa resulta em erro BAD REQUEST": (r) => r.status === 400,
+    });
+
+    check(titan1, {
+      "Apresenta mensagem de erro": (r) => {
+        const data = responseToJson(r);
+        const expected = {"error": "One or more packages doesn't exist"};
+        return shallowObjectCompare(expected, data);
+      },
+    });
+  });
+
 };
