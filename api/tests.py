@@ -1,7 +1,7 @@
 from django.test import TestCase
+from rest_framework.test import APIRequestFactory
 from .models import PackageRelease, Project
 from .serializers import package_validation, PackageSerializer
-from rest_framework.test import APIRequestFactory
 
 
 class ProjectTestCase(TestCase):
@@ -91,3 +91,10 @@ class PackageReleaseSerializerTestCase(TestCase):
 
         self.assertEqual(data, {'name': 'Django', 'version': '3.5.6'})
 
+
+class APITestCase(TestCase):
+
+    def test_get_sem_dados(self):
+        response = self.client.get('http://testserver/api/projects/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, [])
