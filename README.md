@@ -185,6 +185,17 @@ HTTP 204 No Content
 ### `GET /swagger/` e `GET /redoc/`
 Documentação gerada automaticamente.
 
+
+### Dependencias:
+django = "~=3.2"
+djangorestframework = "~=3.12"
+requests = "~=2.25"
+psycopg2 = "~=2.9"
+gunicorn = "~=20.1"
+whitenoise = "~=5.2"
+django-heroku = "~=0.3"
+drf_yasg = "~=1.20"
+
 ## Considerações finais
 O projeto está aberto para contribuições. Basta
 fazer um fork do projeto e mandar o seu PR.

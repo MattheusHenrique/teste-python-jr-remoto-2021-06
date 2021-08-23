@@ -39,7 +39,7 @@ export default () => {
       "O pacote Django esta na versão mais recente": (r) => {
         const data = responseToJson(r);
         const django = data.packages.find((p) => p.name === "Django");
-        return django.version === "3.5.6";
+        return django.version === "3.2.6";
       },
     });
   });
