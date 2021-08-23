@@ -42,6 +42,11 @@ class ProjectSerializer(serializers.ModelSerializer):
         package_exist = True  # Flag para marcar se algum pacote não existe.
         project = Project.objects.create(name=validated_data['name'])
 
+        if len(packages) == 0:  # Se não for passado nenhum pacote retorna erro.
+            raise serializers.ValidationError(
+                {"error": "At least one package must exist"}
+            )
+
         for package in packages:
             # Se algum pacote não existir a interação para e retorna erro.
             package_exist = package_validation(package)
