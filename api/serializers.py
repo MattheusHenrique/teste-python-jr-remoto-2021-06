@@ -43,6 +43,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         project = Project.objects.create(name=validated_data['name'])
 
         if len(packages) == 0:  # Se não for passado nenhum pacote retorna erro.
+            project.delete()
             raise serializers.ValidationError(
                 {"error": "At least one package must exist"}
             )

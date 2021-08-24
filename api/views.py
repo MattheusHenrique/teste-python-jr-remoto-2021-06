@@ -8,5 +8,3 @@ class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
     lookup_field = "name"
     http_method_names = ['get', 'post', 'head', 'delete']
-
-

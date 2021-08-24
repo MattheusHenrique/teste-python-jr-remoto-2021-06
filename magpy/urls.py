@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import RedirectView
 from rest_framework import routers
 from api import views
 from drf_yasg.views import get_schema_view
@@ -27,4 +28,6 @@ urlpatterns = [
     url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('', RedirectView.as_view(url='api/projects'))
 ]
+

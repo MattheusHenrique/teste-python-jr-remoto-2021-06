@@ -45,6 +45,53 @@ export default () => {
   });
 
 
+   group("Cria projeto com pacote vazio", () => {
+    session.delete("/projects/empty/");  // <- limpa o ambiente antes do teste
+
+    const emptyData = {
+        name: "empty",
+        packages: []
+    };
+    const empty = session.post("/projects/", JSON.stringify(emptyData));
+
+    check(empty, {
+      "Tentativa resulta em erro BAD REQUEST": (r) => r.status === 400,
+    });
+
+    check(empty, {
+      "Apresenta mensagem de erro": (r) => {
+        const data = responseToJson(r);
+        const expected = {"error": "At least one package must exist"};
+        return shallowObjectCompare(expected, data);
+      },
+    });
+  });
+
+
+  group("Cria projeto magpy", () => {
+    session.delete("/projects/magpy/");  // <- limpa o ambiente antes do teste
+
+    const magpyData = {
+        name: "magpy",
+        packages: [
+            {name: "Django"}
+        ]
+    };
+    const magpy = session.post("/projects/", JSON.stringify(magpyData));
+
+    check(magpy, {
+      "Cria o projeto com sucesso": (r) => r.status === 201,
+    });
+
+    check(magpy, {
+      "O pacote Django esta na versão mais recente": (r) => {
+        const data = responseToJson(r);
+        const django = data.packages.find((p) => p.name === "Django");
+        return django.version === "3.2.6";
+      },
+    });
+  });
+
 
   group("Envia projeto com dados invalidos", () => {
     session.delete("/projects/machine-head/");  // <- limpa o ambiente antes do teste
