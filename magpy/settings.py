@@ -26,7 +26,6 @@ SECRET_KEY = 'django-insecure-o^6v#)1%sgi&jin)zm=p+=adcgjaqj+e+c$7c*8_8#7*z31uah
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,6 +38,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'drf_yasg',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -50,7 +50,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'magpy.urls'
 
@@ -117,7 +122,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
