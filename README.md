@@ -25,7 +25,7 @@ em requiremenst.txt `pip install -r requiremenst.txt`
 ## Testar a API:
 Existem algumas camadas de teste nessa API. Os testes que envolvem
 modelos, serializers e metodos para executa-los: `./manage.py tests`
-Para testar de forma geral existem os arquivos `test-api.js` e
+Para testar de forma geral existem os arquivos `tests-api.js` e
 `tests-open.js`. Você pode executar esses testes com o [k6](https://k6.io/). Para instalar o k6
 basta [baixar o binário](https://github.com/loadimpact/k6/releases) para o seu
 sistema operacional (Windows, Linux ou Mac).
@@ -182,12 +182,12 @@ HTTP 204 No Content
 []
 ```
 
-### `GET /swagger/` e `GET /redoc/`
+### `GET /api/swagger/` e `GET /api/redoc/`
 Documentação gerada automaticamente.
 
 
 ### Dependencias:
-django = "~=3.2"
+```django = "~=3.2"
 djangorestframework = "~=3.12"
 requests = "~=2.25"
 psycopg2 = "~=2.9"
@@ -195,6 +195,12 @@ gunicorn = "~=20.1"
 whitenoise = "~=5.2"
 django-heroku = "~=0.3"
 drf_yasg = "~=1.20"
+```
+
+
+## Autor
+Mattheus Henrique
+Email: ma77heusdev@gmail.com
 
 ## Considerações finais
 O projeto está aberto para contribuições. Basta
