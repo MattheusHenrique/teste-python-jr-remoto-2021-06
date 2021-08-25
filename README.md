@@ -207,6 +207,9 @@ HTTP 204 No Content
 Documentação gerada automaticamente.
 
 
+### Aplicação:
+Um projeto simples em vuejs que mostra o uso da api. [magpy](https://mattheushenrique.github.io/projectMagPy/)
+
 ### Dependências:
 ```django = "~=3.2"
 djangorestframework = "~=3.12"
